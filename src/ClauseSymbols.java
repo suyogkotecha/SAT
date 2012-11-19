@@ -1,3 +1,6 @@
+import java.util.HashSet;
+import java.util.Set;
+
 
 
 /*This code is picked up/derived from AIMA's code base
@@ -24,8 +27,34 @@ public class ClauseSymbols {
 		clause2Symbols = classifier.getSymbolsIn(clause2);
 		clause2PositiveSymbols = classifier.getPositiveSymbolsIn(clause2);
 		clause2NegativeSymbols = classifier.getNegativeSymbolsIn(clause2);
-
-		positiveInClause1NegativeInClause2 = new Clause(SetOps.intersection(clause1PositiveSymbols.litSet, clause2NegativeSymbols.litSet));
-		negativeInClause1PositiveInClause2 = new Clause(SetOps.intersection(clause1NegativeSymbols.litSet, clause2PositiveSymbols.litSet));
+		System.out.println("In constructor");
+		System.out.println(clause1PositiveSymbols);
+		System.out.println(clause2NegativeSymbols);
+		System.out.println(clause1NegativeSymbols);
+		System.out.println(clause2PositiveSymbols);
+		System.out.println(SetOps.intersection(clause1PositiveSymbols.litSet, clause2NegativeSymbols.litSet).size());
+		System.out.println(SetOps.intersection(clause1NegativeSymbols.litSet, clause2PositiveSymbols.litSet).size());
+		Set <Literal> s1 = new HashSet<Literal>();
+		s1 = SetOps.intersection(clause1PositiveSymbols.litSet, clause2NegativeSymbols.litSet);
+		System.out.println("After intersection: "+s1+" "+s1.size());
+		if(s1.size()==0)			
+			positiveInClause1NegativeInClause2 = new Clause();
+		else
+			positiveInClause1NegativeInClause2 = new Clause(s1);
+		System.out.println("After cons new obj: "+positiveInClause1NegativeInClause2);
+		Set <Literal> s = new HashSet<Literal>();
+		s = SetOps.intersection(clause1NegativeSymbols.litSet, clause2PositiveSymbols.litSet);
+		if(s.size()==0)			
+			negativeInClause1PositiveInClause2 = new Clause();
+		else
+			negativeInClause1PositiveInClause2 = new Clause(s);
+		
+		System.out.println(negativeInClause1PositiveInClause2);
+		System.out.println("Constr done");
+	}
+	public Clause getComplementedSymbols()
+	{		
+		Clause complementSymbols = new Clause(SetOps.union(positiveInClause1NegativeInClause2.litSet, negativeInClause1PositiveInClause2.litSet));		
+		return complementSymbols;
 	}
 }

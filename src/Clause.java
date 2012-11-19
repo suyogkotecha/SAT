@@ -12,7 +12,8 @@ public class Clause {
 	}
 	Clause(Set<Literal> litSet)
 	{
-		litSet  = new HashSet<Literal>();
+		System.out.println("Clause cons called with litset");
+		this.litSet  = new HashSet<Literal>();
 		Iterator <Literal> itr = litSet.iterator();
 		while(itr.hasNext())
 		{
@@ -41,8 +42,11 @@ public class Clause {
 	}
 	public String toString()
 	{
+		if(size() == 0)
+			return null;
 		StringBuffer str = new StringBuffer();
 		Iterator<Literal> itr = litSet.iterator();
+		
 		str.append("(");
 		while(itr.hasNext()) 
 		{
@@ -133,6 +137,8 @@ public class Clause {
 	}*/
 	public int size()
 	{
+		if(litSet == null)
+			return 0;
 		return litSet.size();
 	}
 }

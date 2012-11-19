@@ -41,7 +41,7 @@ public class SymbolClassifier {
 			Literal l = itr.next();
 			if(l.symbol == -1)
 			{
-				negativeSym.addLiteral(l);
+				negativeSym.addLiteral(new Literal(1,l.table,l.person));
 			}
 		}
 		return negativeSym;
