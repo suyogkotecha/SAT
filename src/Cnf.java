@@ -63,7 +63,7 @@ public class Cnf {
 		s.addClause(cl4);
 		System.out.println(s);
 		Set <Sentence> pairs = returnPairs(s);
-		System.out.println(pairs);
+		
 	}
 	public static void generateClauseForAtleastOneTable(Sentence st, int M, int N)
 	{
