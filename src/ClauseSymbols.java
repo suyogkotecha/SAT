@@ -53,8 +53,12 @@ public class ClauseSymbols {
 		System.out.println("Constr done");
 	}
 	public Clause getComplementedSymbols()
-	{		
-		Clause complementSymbols = new Clause(SetOps.union(positiveInClause1NegativeInClause2.litSet, negativeInClause1PositiveInClause2.litSet));		
+	{	
+		System.out.println(positiveInClause1NegativeInClause2);
+		System.out.println(negativeInClause1PositiveInClause2);
+		Clause complementSymbols = new Clause(SetOps.union(positiveInClause1NegativeInClause2.litSet, negativeInClause1PositiveInClause2.litSet));
+		System.out.println("Union"+complementSymbols.size());
+		System.out.println(complementSymbols);
 		return complementSymbols;
 	}
 }
