@@ -1,6 +1,18 @@
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
+
+
+
+
+
+
+/*This code is picked up/derived from AIMA's code base
+ * http://code.google.com/p/aima-java
+ * http://code.google.com/p/aima-java/downloads/detail?name=aima-java-1.7.0-Chp4-Complete.zip&can=2&q=
+ */
+
 
 
 
@@ -38,14 +50,32 @@ public class Cnf {
 			}
 			System.out.println("");
 		}
-		
+		Globals.R[0][1] = 1;
+		Globals.R[0][2] = -1;
+		Globals.R[1][2] = 1;
 		Sentence st = new Sentence();
+		M=3;
+		N=2;
 		generateClauseForAtleastOneTable(st,M,N);
 		generateClauseForNotMoreThanOne(st,M,N);		
 		generateClauseForMatrix(st,M,N);
-
+		System.out.println(st);
+		/*Clause cl = new Clause();
+		cl.addLiteral(1, 3, 2);
+		cl.addLiteral(1, 2, 3);
+		cl.addLiteral(1, 2, 1);
 		
-		/*Set <Sentence> pairs = returnPairs(s);
+		Clause cl1 = new Clause();
+		//cl1.addLiteral(-1, 2, 1);
+		cl1.addLiteral(1, 4, 3);
+		cl1.addLiteral(1, 3, 5);
+		//cl1.addLiteral(-1, 2, 3);
+		ClauseSymbols cs = new ClauseSymbols(cl, cl1);
+		
+		Sentence dummy = plResolve(cl, cl1);
+		System.out.println("Pl resolve");
+		System.out.println(dummy.size());
+		Set <Sentence> pairs = returnPairs(s);
 		System.out.println(pairs);*/
 	}
 	public static void generateClauseForAtleastOneTable(Sentence st, int M, int N)
@@ -140,5 +170,42 @@ public class Cnf {
 			
 		}
 		return pairs;
+	}
+	public static Clause createResolventClause(ClauseSymbols cs, Literal toRemove) 
+	{
+		List<Literal> positiveSymbols = new Converter<Literal>().setToList(SetOps
+				.union(cs.clause1PositiveSymbols.litSet, cs.clause2PositiveSymbols.litSet));
+		List<Literal> negativeSymbols = new Converter<Literal>().setToList(SetOps
+				.union(cs.clause1NegativeSymbols.litSet, cs.clause2NegativeSymbols.litSet));
+		if (positiveSymbols.contains(toRemove)) {
+			positiveSymbols.remove(toRemove);
+		}
+		if (negativeSymbols.contains(toRemove)) {
+			negativeSymbols.remove(toRemove);
+		}
+		//System.out.println(positiveSymbols);
+		//System.out.println(negativeSymbols);
+		
+		Clause c1 = new Clause();
+		for (int i = 0; i < positiveSymbols.size(); i++) {
+			c1.addLiteral(positiveSymbols.get(i));
+		}
+		for (int i = 0; i < negativeSymbols.size(); i++) {
+			Literal l = negativeSymbols.get(i);
+			c1.addLiteral(-1,l.table,l.person);
+		}
+		return c1;
+	}
+	public static Sentence plResolve(Clause clause1, Clause clause2)
+	{
+		Sentence resolvents = new Sentence();
+		ClauseSymbols cs = new ClauseSymbols(clause1, clause2);
+		Iterator<Literal> iter = cs.getComplementedSymbols().litSet.iterator();
+		int i=0;
+		while (iter.hasNext()) {
+			Literal symbol = iter.next();			
+			resolvents.addClause(createResolventClause(cs, symbol));
+		}
+		return resolvents;
 	}
 }
