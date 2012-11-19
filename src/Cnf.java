@@ -46,7 +46,8 @@ public class Cnf {
 		//System.out.println(st.toString());
 		Clause cl = new Clause();
 		cl.addLiteral(1, 1, 1);
-		cl.addLiteral(1, 1, 2);
+		cl.addLiteral(-1, 1, 1);
+		cl.addLiteral(-1, 1, 2);
 		Clause cl1 = new Clause();
 		cl1.addLiteral(1, 2, 2);
 		cl1.addLiteral(1, 2, 3);
@@ -61,9 +62,9 @@ public class Cnf {
 		s.addClause(cl1);
 		s.addClause(cl3);
 		s.addClause(cl4);
-		System.out.println(s);
-		Set <Sentence> pairs = returnPairs(s);
 		
+		/*Set <Sentence> pairs = returnPairs(s);
+		System.out.println(pairs);*/
 	}
 	public static void generateClauseForAtleastOneTable(Sentence st, int M, int N)
 	{
