@@ -1,5 +1,4 @@
-import aima.core.logic.propositional.visitors.SymbolClassifier;
-import aima.core.util.SetOps;
+
 
 /*This code is picked up/derived from AIMA's code base
  * http://code.google.com/p/aima-java

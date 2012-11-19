@@ -43,12 +43,21 @@ public class Cnf {
 		generateClauseForAtleastOneTable(st,M,N);
 		generateClauseForNotMoreThanOne(st,M,N);		
 		generateClauseForMatrix(st,M,N);
-		//System.out.println(st.toString());
+
+		/*SymbolClassifier sc = new SymbolClassifier();
 		Clause cl = new Clause();
 		cl.addLiteral(1, 1, 1);
+		cl.addLiteral(1, 4, 1);
+		cl.addLiteral(-1, 4, 1);
 		cl.addLiteral(-1, 1, 1);
 		cl.addLiteral(-1, 1, 2);
-		Clause cl1 = new Clause();
+		cl.addLiteral(-1, 1, 3);
+		System.out.println(cl);
+		Clause cl1 = sc.getPositiveSymbolsIn(cl);		
+		Sentence st = new Sentence(cl);
+		System.out.println(st.filterOutClausesWithTwoComplementaryLiterals());
+		System.out.println(cl1);
+		/*Clause cl1 = new Clause();
 		cl1.addLiteral(1, 2, 2);
 		cl1.addLiteral(1, 2, 3);
 		Clause cl3 = new Clause();
@@ -62,7 +71,7 @@ public class Cnf {
 		s.addClause(cl1);
 		s.addClause(cl3);
 		s.addClause(cl4);
-		
+		*/
 		/*Set <Sentence> pairs = returnPairs(s);
 		System.out.println(pairs);*/
 	}
