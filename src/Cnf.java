@@ -52,7 +52,7 @@ public class Cnf {
 		}
 		Globals.R[0][1] = 1;
 		Globals.R[0][2] = -1;
-		Globals.R[1][2] = 1;
+		Globals.R[1][2] = -1;
 		Sentence st = new Sentence();
 		M=3;
 		N=2;
@@ -60,6 +60,8 @@ public class Cnf {
 		generateClauseForNotMoreThanOne(st,M,N);		
 		generateClauseForMatrix(st,M,N);
 		System.out.println(st);
+		System.out.println(plResolution(st));
+		
 		/*Clause cl = new Clause();
 		cl.addLiteral(1, 3, 2);
 		cl.addLiteral(1, 2, 3);
@@ -75,8 +77,42 @@ public class Cnf {
 		Sentence dummy = plResolve(cl, cl1);
 		System.out.println("Pl resolve");
 		System.out.println(dummy.size());
-		Set <Sentence> pairs = returnPairs(s);
-		System.out.println(pairs);*/
+		*/
+	}
+	public static boolean plResolution(Sentence st)
+	{
+		Sentence clauses = st.filterOutClausesWithTwoComplementaryLiterals();
+		Sentence newClauses = new Sentence();
+		while(true)
+		{
+			Set <Sentence> pairs = returnPairs(clauses);
+			System.out.println(pairs);
+			System.out.println("Individual pair");
+			for (int i = 0; i < pairs.size(); i++) 
+			{
+				Sentence pair = getSentence(pairs, i);				
+				if(pair.size()!=2)
+				{
+					System.out.println("ERROR: Cant have more/less than 2 sets in sentence");
+					return false;
+				}
+				Iterator <Clause> itr = pair.clauses.iterator();
+				Sentence resolvent = plResolve(itr.next(), itr.next());
+				resolvent = resolvent.filterOutClausesWithTwoComplementaryLiterals();				
+				newClauses = new Sentence(SetOps.union(newClauses.clauses, resolvent.clauses));
+			}
+			if(newClauses.size() == 0)
+				return false;
+			if (SetOps.intersection(newClauses.clauses, clauses.clauses).size() == newClauses.size()) 
+			{// subset test
+				System.out.println(newClauses);
+				return true;
+			}
+			
+			clauses = new Sentence(SetOps.union(newClauses.clauses, clauses.clauses));
+			clauses = clauses.filterOutClausesWithTwoComplementaryLiterals();			
+		}
+		
 	}
 	public static void generateClauseForAtleastOneTable(Sentence st, int M, int N)
 	{
@@ -207,5 +243,14 @@ public class Cnf {
 			resolvents.addClause(createResolventClause(cs, symbol));
 		}
 		return resolvents;
+	}
+	public static Sentence getSentence(Set <Sentence> pairs, int location)
+	{
+		Iterator <Sentence> itr = pairs.iterator();
+		for(int i=0;itr.hasNext()&&i<location;i++)
+		{
+			itr.next();
+		}
+		return itr.next();		
 	}
 }

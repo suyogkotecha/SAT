@@ -14,6 +14,16 @@ public class Sentence {
 		clauses = new HashSet<Clause>();
 		clauses.add(e);		
 	}
+	Sentence(Set <Clause> st)
+	{
+		this.clauses = new HashSet<Clause>();
+		Iterator <Clause> itr = st.iterator();
+		while(itr.hasNext())
+		{
+			Clause cl = itr.next();
+			clauses.add(new Clause(cl));
+		}
+	}
 	Sentence(Sentence st)
 	{
 		clauses = new HashSet<Clause>();
@@ -100,4 +110,5 @@ public class Sentence {
 		cl = new Clause(itr.next());
 		return cl;
 	}
+	
 }
