@@ -110,5 +110,16 @@ public class Sentence {
 		cl = new Clause(itr.next());
 		return cl;
 	}
-	
+	public boolean hasEmptyClause()
+	{
+		Iterator <Clause> itr = this.clauses.iterator();
+		while(itr.hasNext())
+		{
+			Clause e = itr.next();
+			if(e.size()==0)
+				return true;
+		}
+		return false;		
+	}
+
 }

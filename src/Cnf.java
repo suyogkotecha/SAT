@@ -54,6 +54,7 @@ public class Cnf {
 		Globals.R[0][2] = -1;
 		Globals.R[1][2] = -1;
 		Sentence st = new Sentence();
+		System.out.println(st);
 		M=3;
 		N=2;
 		generateClauseForAtleastOneTable(st,M,N);
@@ -98,11 +99,15 @@ public class Cnf {
 				}
 				Iterator <Clause> itr = pair.clauses.iterator();
 				Sentence resolvent = plResolve(itr.next(), itr.next());
+				if(resolvent.hasEmptyClause())
+				{
+					System.out.println("BINGO!");
+					System.out.println(resolvent);
+					return false;
+				}
 				resolvent = resolvent.filterOutClausesWithTwoComplementaryLiterals();				
-				newClauses = new Sentence(SetOps.union(newClauses.clauses, resolvent.clauses));
-			}
-			if(newClauses.size() == 0)
-				return false;
+				newClauses = new Sentence(SetOps.union(newClauses.clauses, resolvent.clauses));				
+			}			
 			if (SetOps.intersection(newClauses.clauses, clauses.clauses).size() == newClauses.size()) 
 			{// subset test
 				System.out.println(newClauses);
@@ -235,13 +240,14 @@ public class Cnf {
 	public static Sentence plResolve(Clause clause1, Clause clause2)
 	{
 		Sentence resolvents = new Sentence();
+		System.out.println(resolvents);
 		ClauseSymbols cs = new ClauseSymbols(clause1, clause2);
-		Iterator<Literal> iter = cs.getComplementedSymbols().litSet.iterator();
-		int i=0;
+		Iterator<Literal> iter = cs.getComplementedSymbols().litSet.iterator();		
 		while (iter.hasNext()) {
 			Literal symbol = iter.next();			
-			resolvents.addClause(createResolventClause(cs, symbol));
+			resolvents.addClause(new Clause(createResolventClause(cs, symbol)));
 		}
+		System.out.println(resolvents);
 		return resolvents;
 	}
 	public static Sentence getSentence(Set <Sentence> pairs, int location)
