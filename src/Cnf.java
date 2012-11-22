@@ -40,7 +40,7 @@ public class Cnf {
 		int N = Integer.parseInt(args[1]);
 		double f = Double.parseDouble(args[2]);
 		double e = Double.parseDouble(args[3]);
-		M=5;N=3;
+		M=3;N=2;
 		//System.out.println("M:"+M+" N:"+N+" f:"+f+" e:"+e);
 		//fill matrix R
 		
@@ -67,7 +67,8 @@ public class Cnf {
 		generateClauseForMatrix(st,M,N);
 		System.out.println(st);
 		//System.out.println(plResolution(st));
-		WalkSat.walkSat(st, 20, M, N);
+		WalkSat ws = new WalkSat();
+		System.out.println(ws.walkSat(st, 20, M, N));
 		/*
 		Clause cl = new Clause();
 		cl.addLiteral(1, 3, 2);
@@ -114,7 +115,11 @@ public class Cnf {
 				}
 				resolvent = resolvent.filterOutClausesWithTwoComplementaryLiterals();				
 				newClauses = new Sentence(SetOps.union(newClauses.clauses, resolvent.clauses));				
-			}			
+			}
+			if((newClauses.size() ==0 || newClauses == null) && clauses.size()!=0)
+			{
+				return true;
+			}
 			if (SetOps.intersection(newClauses.clauses, clauses.clauses).size() == newClauses.size()) 
 			{// subset test
 				//System.out.println(newClauses);
