@@ -32,21 +32,27 @@ public class Cnf {
 	 */
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
+		long heapSize = Runtime.getRuntime().totalMemory();
+        
+        //Print the jvm heap size.
+        System.out.println("Heap Size = " + heapSize);
 		int M = Integer.parseInt(args[0]);
 		int N = Integer.parseInt(args[1]);
 		double f = Double.parseDouble(args[2]);
 		double e = Double.parseDouble(args[3]);
 		M=5;N=3;
-		System.out.println("M:"+M+" N:"+N+" f:"+f+" e:"+e);
+		//System.out.println("M:"+M+" N:"+N+" f:"+f+" e:"+e);
 		//fill matrix R
 		
 		Globals.fillMatrix(M, f, e);
-		
+		M=3;
+		N=3;
 		for(int i =0;i<M;i++)
 		{
 			for(int j=0;j<M;j++)
 			{
 				System.out.print(Globals.R[i][j]+" ");
+				Globals.R[i][j] = 0;
 			}
 			System.out.println("");
 		}
@@ -54,31 +60,32 @@ public class Cnf {
 		Globals.R[0][2] = -1;
 		Globals.R[1][2] = -1;
 		Sentence st = new Sentence();
-		System.out.println(st);
-		M=3;
-		N=2;
+		//System.out.println(st);
+		
 		generateClauseForAtleastOneTable(st,M,N);
 		generateClauseForNotMoreThanOne(st,M,N);		
 		generateClauseForMatrix(st,M,N);
 		System.out.println(st);
-		System.out.println(plResolution(st));
-		
-		/*Clause cl = new Clause();
+		//System.out.println(plResolution(st));
+		WalkSat.walkSat(st, 20, M, N);
+		/*
+		Clause cl = new Clause();
 		cl.addLiteral(1, 3, 2);
-		cl.addLiteral(1, 2, 3);
+		cl.addLiteral(-1, 2, 3);
 		cl.addLiteral(1, 2, 1);
 		
 		Clause cl1 = new Clause();
-		//cl1.addLiteral(-1, 2, 1);
+		cl1.addLiteral(1, 2, 3);
 		cl1.addLiteral(1, 4, 3);
-		cl1.addLiteral(1, 3, 5);
+		cl1.addLiteral(-1, 3, 5);
 		//cl1.addLiteral(-1, 2, 3);
-		ClauseSymbols cs = new ClauseSymbols(cl, cl1);
+		//ClauseSymbols cs = new ClauseSymbols(cl, cl1);
 		
-		Sentence dummy = plResolve(cl, cl1);
-		System.out.println("Pl resolve");
-		System.out.println(dummy.size());
-		*/
+		Sentence dummy = new Sentence(cl);
+		dummy.addClause(cl1);
+		
+		System.out.println(dummy.filterOutClausesWithTwoComplementaryLiterals());*/
+		
 	}
 	public static boolean plResolution(Sentence st)
 	{
@@ -88,7 +95,7 @@ public class Cnf {
 		{
 			Set <Sentence> pairs = returnPairs(clauses);
 			System.out.println(pairs);
-			System.out.println("Individual pair");
+			//System.out.println("Individual pair");
 			for (int i = 0; i < pairs.size(); i++) 
 			{
 				Sentence pair = getSentence(pairs, i);				
@@ -110,7 +117,7 @@ public class Cnf {
 			}			
 			if (SetOps.intersection(newClauses.clauses, clauses.clauses).size() == newClauses.size()) 
 			{// subset test
-				System.out.println(newClauses);
+				//System.out.println(newClauses);
 				return true;
 			}
 			
@@ -205,7 +212,7 @@ public class Cnf {
 				Sentence stTemp = new Sentence();
 				stTemp.addClause(st.returnClause(i));
 				stTemp.addClause(st.returnClause(j));
-				System.out.println("sentence after i:"+i+" j:"+j+" pair: "+stTemp);
+				//System.out.println("sentence after i:"+i+" j:"+j+" pair: "+stTemp);
 				pairs.add(stTemp);
 			}
 			
@@ -240,14 +247,14 @@ public class Cnf {
 	public static Sentence plResolve(Clause clause1, Clause clause2)
 	{
 		Sentence resolvents = new Sentence();
-		System.out.println(resolvents);
+		//System.out.println(resolvents);
 		ClauseSymbols cs = new ClauseSymbols(clause1, clause2);
 		Iterator<Literal> iter = cs.getComplementedSymbols().litSet.iterator();		
 		while (iter.hasNext()) {
 			Literal symbol = iter.next();			
 			resolvents.addClause(new Clause(createResolventClause(cs, symbol)));
 		}
-		System.out.println(resolvents);
+		//System.out.println(resolvents);
 		return resolvents;
 	}
 	public static Sentence getSentence(Set <Sentence> pairs, int location)

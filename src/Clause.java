@@ -12,25 +12,29 @@ public class Clause {
 	}
 	Clause(Set<Literal> litSet)
 	{
-		System.out.println("Clause cons called with litset");
-		this.litSet  = new HashSet<Literal>();
+		//System.out.println("Clause cons called with litset");
+		/*this.litSet  = new HashSet<Literal>();
 		Iterator <Literal> itr = litSet.iterator();
 		while(itr.hasNext())
 		{
 			Literal ltr = itr.next();
-			this.litSet.add(new Literal(ltr));
-		}		
+			//this.litSet.add(new Literal(ltr));
+			this.litSet.add(ltr);
+		}*/
+		this.litSet = litSet;
 	}
 	Clause(Clause cl)
 	{
-		this.litSet  = new HashSet<Literal>();
+		/*this.litSet  = new HashSet<Literal>();
 		Set <Literal> lS = cl.litSet;		
 		Iterator <Literal> itr = lS.iterator();
 		while(itr.hasNext())
 		{
 			Literal ltr = itr.next();
-			this.litSet.add(new Literal(ltr));
-		}
+			//this.litSet.add(new Literal(ltr));
+			this.litSet.add(ltr);
+		}*/
+		this.litSet = cl.litSet;
 	}
 	void addLiteral(int symbol, int table, int person)
 	{
@@ -38,7 +42,8 @@ public class Clause {
 	}
 	void addLiteral(Literal l)
 	{
-		litSet.add(new Literal(l));
+		//litSet.add(new Literal(l));
+		litSet.add(l);
 	}
 	public String toString()
 	{
@@ -61,22 +66,22 @@ public class Clause {
 	{
 		//System.out.println("Equals called Clause");
 		Clause another = (Clause)o;
-		/*Set<Literal> a = new HashSet<Literal>();
+		Set<Literal> a = new HashSet<Literal>();
 		Iterator<Literal> itr = litSet.iterator();
 		while(itr.hasNext())
 		{
 			Literal ltr = (Literal) itr.next();
 			a.add(new Literal(ltr.symbol,ltr.table,ltr.person));
-		}*/
-		Set<Literal> a = new Clause(this).litSet;
-		/*Set<Literal> b = new HashSet<Literal>();		
+		}
+		//Set<Literal> a = new Clause(this).litSet;
+		Set<Literal> b = new HashSet<Literal>();		
 		Iterator<Literal> itr1 = another.litSet.iterator();
 		while(itr1.hasNext())
 		{
 			Literal ltr = (Literal) itr1.next();
 			b.add(new Literal(ltr.symbol,ltr.table,ltr.person));
-		}*/
-		Set<Literal> b = new Clause(another).litSet;
+		}
+		//Set<Literal> b = new Clause(another).litSet;
 		
 		for(Iterator<Literal> i = a.iterator();i.hasNext();)
 		{
@@ -95,7 +100,7 @@ public class Clause {
 			return true;
 		else
 		{
-			System.out.println(this.toString());
+			//System.out.println(this.toString());
 			return false;
 		}
 	}
