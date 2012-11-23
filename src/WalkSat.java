@@ -11,12 +11,12 @@ public class WalkSat {
 	public boolean walkSat(Sentence st, int flips, int M, int N)
 	{
 		generateModel(M, N);
-		flips=1;
+		flips=1;//~
 		for(int i=0;i<flips;i++)
 		{
 			if(modelSatisfiable(st))		
 				return true;
-			
+		
 		}
 		return false;
 	}
@@ -29,9 +29,11 @@ public class WalkSat {
 				model[i][j] = false;
 			}
 		}
+		//~
 		model[0][1] = true;
 		model[1][2] = true;
-		model[2][0] = true;
+		model[2][0] = false;
+		//~
 		//model[1][2] = false;
 		for(int i=0;i<M;i++)
 		{

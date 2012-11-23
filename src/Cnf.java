@@ -56,7 +56,7 @@ public class Cnf {
 			}
 			System.out.println("");
 		}
-		Globals.R[0][1] = 1;
+		Globals.R[0][1] = -1;
 		Globals.R[0][2] = -1;
 		Globals.R[1][2] = -1;
 		Sentence st = new Sentence();
