@@ -29,8 +29,8 @@ public class Cnf {
 		M=3;N=2;
 		//System.out.println("M:"+M+" N:"+N+" f:"+f+" e:"+e);
 		//fill matrix R
-		M=16;
-		N=2;
+		M=24;
+		N=3;
 		f = 0.0;
 		e = 0.02;
 		Globals.fillMatrix(M, f, e);
@@ -54,9 +54,9 @@ public class Cnf {
 		generateClauseForNotMoreThanOne(st,M,N);		
 		generateClauseForMatrix(st,M,N);
 		System.out.println(st);
-		//System.out.println(plResolution(st));
-		WalkSat ws = new WalkSat();
-		System.out.println(ws.walkSat(st, 100, M, N,1.0));
+		System.out.println(plResolution(st));
+		//WalkSat ws = new WalkSat();
+		//System.out.println(ws.walkSat(st, 100, M, N,1.0));
 		/*
 		Clause cl = new Clause();
 		cl.addLiteral(1, 3, 2);
@@ -80,21 +80,30 @@ public class Cnf {
 	{
 		Sentence clauses = st.filterOutClausesWithTwoComplementaryLiterals();
 		Sentence newClauses = new Sentence();
+		Set <Sentence> pairs = null;
+		Sentence pair = null;
+		Iterator <Clause> itr = null;
+		Sentence resolvent = null;
 		while(true)
 		{
-			Set <Sentence> pairs = returnPairs(clauses);
-			System.out.println(pairs);
+			//newClauses = null;
+			pairs = null;
+			pair = null;
+			itr = null;
+			resolvent = null;
+			pairs = returnPairs(clauses);
+			//System.out.println(pairs);
 			//System.out.println("Individual pair");
 			for (int i = 0; i < pairs.size(); i++) 
 			{
-				Sentence pair = getSentence(pairs, i);				
+				pair = getSentence(pairs, i);				
 				if(pair.size()!=2)
 				{
 					System.out.println("ERROR: Cant have more/less than 2 sets in sentence");
 					return false;
 				}
-				Iterator <Clause> itr = pair.clauses.iterator();
-				Sentence resolvent = plResolve(itr.next(), itr.next());
+				itr = pair.clauses.iterator();
+				resolvent = plResolve(itr.next(), itr.next());
 				if(resolvent.hasEmptyClause())
 				{
 					System.out.println("BINGO!");
