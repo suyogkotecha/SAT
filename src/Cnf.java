@@ -3,24 +3,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-
-
-
-
-
 /*This code is picked up/derived from AIMA's code base
  * http://code.google.com/p/aima-java
  * http://code.google.com/p/aima-java/downloads/detail?name=aima-java-1.7.0-Chp4-Complete.zip&can=2&q=
  */
-
-
-
-
-
-/**
- * 
- */
-
 /**
  * @author Suyog
  *
@@ -43,24 +29,26 @@ public class Cnf {
 		M=3;N=2;
 		//System.out.println("M:"+M+" N:"+N+" f:"+f+" e:"+e);
 		//fill matrix R
-		
+		M=16;
+		N=2;
+		f = 0.0;
+		e = 0.02;
 		Globals.fillMatrix(M, f, e);
-		M=3;
-		N=3;
+		
+		
 		for(int i =0;i<M;i++)
 		{
 			for(int j=0;j<M;j++)
 			{
-				System.out.print(Globals.R[i][j]+" ");
-				Globals.R[i][j] = 0;
+				System.out.print(Globals.R[i][j]+" ");				
 			}
 			System.out.println("");
 		}
-		Globals.R[0][1] = -1;
+		/*Globals.R[0][1] = -1;
 		Globals.R[0][2] = -1;
-		Globals.R[1][2] = -1;
+		Globals.R[1][2] = -1;*/
 		Sentence st = new Sentence();
-		//System.out.println(st);
+		System.out.println(st);
 		
 		generateClauseForAtleastOneTable(st,M,N);
 		generateClauseForNotMoreThanOne(st,M,N);		
@@ -68,7 +56,7 @@ public class Cnf {
 		System.out.println(st);
 		//System.out.println(plResolution(st));
 		WalkSat ws = new WalkSat();
-		System.out.println(ws.walkSat(st, 20, M, N));
+		System.out.println(ws.walkSat(st, 100, M, N,1.0));
 		/*
 		Clause cl = new Clause();
 		cl.addLiteral(1, 3, 2);

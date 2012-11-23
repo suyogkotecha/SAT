@@ -46,7 +46,7 @@ public class Sentence {
 		while(itr.hasNext()) 
 		{
 			Clause cls = itr.next();
-			str.append(cls.toString()).append("^");
+			str.append(cls.toString()).append("^\n");
 		}		
 		str = str.deleteCharAt(str.length()-1);
 		str.append(")");
@@ -102,12 +102,13 @@ public class Sentence {
 	{
 		Iterator <Clause> itr = this.clauses.iterator();
 		
-		Clause cl;
+		Clause cl = null;
 		for(int i=0;i<location && itr.hasNext();i++)
 		{
 			itr.next();
 		}
-		cl = new Clause(itr.next());
+		//~cl = new Clause(itr.next());
+		cl = itr.next();
 		return cl;
 	}
 	public boolean hasEmptyClause()

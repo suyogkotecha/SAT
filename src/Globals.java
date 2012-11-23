@@ -2,7 +2,7 @@ import java.util.Random;
 
 
 public class Globals {
-	public static int R[][] = new int [10][10];
+	public static int R[][] = new int [100][100];
 	public static void fillMatrix(int M, double f, double e)
 	{
 		e = e + f;

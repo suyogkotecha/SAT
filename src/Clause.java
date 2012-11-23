@@ -146,4 +146,16 @@ public class Clause {
 			return 0;
 		return litSet.size();
 	}
+	public Literal returnLiteral(int location)
+	{
+		Iterator <Literal> itr = this.litSet.iterator();
+		Literal l = null;
+		for(int i=0;i<location && itr.hasNext();i++)
+		{
+			itr.next();
+		}
+		//~cl = new Clause(itr.next());
+		l = itr.next();
+		return l;
+	}
 }
