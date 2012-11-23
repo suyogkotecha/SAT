@@ -1,3 +1,4 @@
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -26,15 +27,17 @@ public class Cnf {
 		int N = Integer.parseInt(args[1]);
 		double f = Double.parseDouble(args[2]);
 		double e = Double.parseDouble(args[3]);
-		M=3;N=2;
+		//M=3;N=2;
 		//System.out.println("M:"+M+" N:"+N+" f:"+f+" e:"+e);
 		//fill matrix R
-		M=24;
+		M=2;
 		N=3;
 		f = 0.0;
-		e = 0.02;
+		e = 1;
 		Globals.fillMatrix(M, f, e);
-		
+		Globals.R[0][1] = -1;
+		Globals.R[0][2] = -1;
+		Globals.R[1][2] = -1;
 		
 		for(int i =0;i<M;i++)
 		{
@@ -54,7 +57,10 @@ public class Cnf {
 		generateClauseForNotMoreThanOne(st,M,N);		
 		generateClauseForMatrix(st,M,N);
 		System.out.println(st);
+		long lStartTime = new Date().getTime(); //start time
 		System.out.println(plResolution(st));
+		long lEndTime = new Date().getTime(); //end time
+		System.out.println("Elapsed seconds: " + ((lEndTime - lStartTime)/1000.0));
 		//WalkSat ws = new WalkSat();
 		//System.out.println(ws.walkSat(st, 100, M, N,1.0));
 		/*

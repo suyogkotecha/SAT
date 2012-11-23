@@ -102,13 +102,12 @@ public class Sentence {
 	{
 		Iterator <Clause> itr = this.clauses.iterator();
 		
-		Clause cl = null;
+		Clause cl;
 		for(int i=0;i<location && itr.hasNext();i++)
 		{
 			itr.next();
 		}
-		//~cl = new Clause(itr.next());
-		cl = itr.next();
+		cl = new Clause(itr.next());
 		return cl;
 	}
 	public boolean hasEmptyClause()
