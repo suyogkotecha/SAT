@@ -1,4 +1,5 @@
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
 
@@ -52,10 +53,11 @@ public class ClauseSymbols {
 		/*System.out.println(negativeInClause1PositiveInClause2);
 		System.out.println("Constr done");*/
 	}
-	public Clause getComplementedSymbols()
+	public Iterator<Literal> getComplementedSymbols()
 	{	
 		
-		Clause complementSymbols = new Clause(SetOps.union(positiveInClause1NegativeInClause2.litSet, negativeInClause1PositiveInClause2.litSet));		
-		return complementSymbols;
+		//Clause complementSymbols = new Clause(SetOps.union(positiveInClause1NegativeInClause2.litSet, negativeInClause1PositiveInClause2.litSet));		
+		return SetOps.union(positiveInClause1NegativeInClause2.litSet, negativeInClause1PositiveInClause2.litSet).iterator();
+		//!
 	}
 }

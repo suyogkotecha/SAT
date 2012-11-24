@@ -30,8 +30,8 @@ public class Cnf {
 		//M=3;N=2;
 		//System.out.println("M:"+M+" N:"+N+" f:"+f+" e:"+e);
 		//fill matrix R
-		M=2;
-		N=3;
+		M=16;
+		N=2;
 		f = 0.0;
 		e = 1;
 		Globals.fillMatrix(M, f, e);
@@ -84,20 +84,23 @@ public class Cnf {
 	}
 	public static boolean plResolution(Sentence st)
 	{
-		Sentence clauses = st.filterOutClausesWithTwoComplementaryLiterals();
+		Sentence clauses = null;
 		Sentence newClauses = new Sentence();
 		Set <Sentence> pairs = null;
 		Sentence pair = null;
 		Iterator <Clause> itr = null;
 		Sentence resolvent = null;
+		clauses = st.filterOutClausesWithTwoComplementaryLiterals();
 		while(true)
 		{
 			//newClauses = null;
+			
 			pairs = null;
 			pair = null;
 			itr = null;
 			resolvent = null;
 			pairs = returnPairs(clauses);
+			
 			//System.out.println(pairs);
 			//System.out.println("Individual pair");
 			for (int i = 0; i < pairs.size(); i++) 
@@ -117,7 +120,7 @@ public class Cnf {
 					return false;
 				}
 				resolvent = resolvent.filterOutClausesWithTwoComplementaryLiterals();				
-				newClauses = new Sentence(SetOps.union(newClauses.clauses, resolvent.clauses));				
+				newClauses.clauses = SetOps.union(newClauses.clauses, resolvent.clauses);				
 			}
 			if((newClauses.size() ==0 || newClauses == null) && clauses.size()!=0)
 			{
@@ -129,7 +132,7 @@ public class Cnf {
 				return true;
 			}
 			
-			clauses = new Sentence(SetOps.union(newClauses.clauses, clauses.clauses));
+			clauses.clauses = SetOps.union(newClauses.clauses, clauses.clauses);
 			clauses = clauses.filterOutClausesWithTwoComplementaryLiterals();			
 		}
 		
@@ -257,10 +260,11 @@ public class Cnf {
 		Sentence resolvents = new Sentence();
 		//System.out.println(resolvents);
 		ClauseSymbols cs = new ClauseSymbols(clause1, clause2);
-		Iterator<Literal> iter = cs.getComplementedSymbols().litSet.iterator();		
+		//Iterator<Literal> iter = cs.getComplementedSymbols().litSet.iterator();		
+		Iterator<Literal> iter = cs.getComplementedSymbols();
 		while (iter.hasNext()) {
-			Literal symbol = iter.next();			
-			resolvents.addClause(new Clause(createResolventClause(cs, symbol)));
+			//!Literal symbol = iter.next();			
+			resolvents.addClause((createResolventClause(cs, iter.next())));
 		}
 		//System.out.println(resolvents);
 		return resolvents;
