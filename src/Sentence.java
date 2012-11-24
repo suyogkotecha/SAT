@@ -121,5 +121,23 @@ public class Sentence {
 		}
 		return false;		
 	}
+	public void remove(Sentence s)
+	{
+		Iterator <Clause> itrA = s.clauses.iterator();
+		while(itrA.hasNext())
+		{
+			Clause cl = itrA.next();
+			Iterator <Clause> itrB = this.clauses.iterator();
+			while(itrB.hasNext())
+			{
+				Clause toRemove =itrB.next(); 
+				if(cl.equals(toRemove))
+				{
+					this.clauses.remove(toRemove);
+					break;
+				}
+			}
+		}
+	}
 
 }
