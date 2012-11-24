@@ -22,7 +22,7 @@ public class Cnf {
 		long heapSize = Runtime.getRuntime().totalMemory();
         
         //Print the jvm heap size.
-        System.out.println("Heap Size = " + heapSize);
+        //System.out.println("Heap Size = " + heapSize);
 		int M = Integer.parseInt(args[0]);
 		int N = Integer.parseInt(args[1]);
 		double f = Double.parseDouble(args[2]);
@@ -32,41 +32,28 @@ public class Cnf {
 		//fill matrix R
 		M=16;
 		N=2;
-		f = 0.0;
-		e = 0.02;
-		Globals.fillMatrix(M, f, e);
-		/*Globals.R[0][1] = -1;
-		Globals.R[0][2] = -1;
-		Globals.R[1][2] = -1;*/
+		/*f = 0.0;
+		e = 1;*/
 		
-		for(int i =0;i<M;i++)
-		{
-			for(int j=0;j<M;j++)
-			{
-				System.out.print(Globals.R[i][j]+" ");				
-			}
-			System.out.println("");
-		}
-		/*Globals.R[0][1] = -1;
-		Globals.R[0][2] = -1;
-		Globals.R[1][2] = -1;*/
-		Sentence st = new Sentence();
-		System.out.println(st);
+			Globals.fillMatrix(M, f, e);
 		
+		
+		Sentence st = new Sentence();		
 		generateClauseForAtleastOneTable(st,M,N);
 		generateClauseForNotMoreThanOne(st,M,N);		
 		generateClauseForMatrix(st,M,N);
-		System.out.println(st);
+
 		long lStartTime = new Date().getTime(); //start time
-		System.out.println(plResolution(st));
+		System.out.print("PL:" + plResolution(st)+"\t");
 		long lEndTime = new Date().getTime(); //end time
-		System.out.println("PL: \t" + ((lEndTime - lStartTime)/1000.0));
+		System.out.print(((lEndTime - lStartTime)/1000.0)+"\t");
 		WalkSat ws = new WalkSat();
 		lStartTime = new Date().getTime(); //start time
-		ws.walkSat(st, 100, M, N,1.0);
+		System.out.print(ws.walkSat(st, 100, M, N,0.5)+"\t");
 		lEndTime = new Date().getTime(); //end time
-		System.out.print(((lEndTime - lStartTime)/1000.0));
+		System.out.print(lEndTime - lStartTime);
 		System.out.println();
+		
 		/*
 		Clause cl = new Clause();
 		cl.addLiteral(1, 3, 2);
@@ -130,8 +117,8 @@ public class Cnf {
 				}
 				if(resolvent.hasEmptyClause())
 				{
-					System.out.println("BINGO!");
-					System.out.println(resolvent);
+					//System.out.println("BINGO!");
+					//System.out.println(resolvent);
 					return false;
 				}				
 								

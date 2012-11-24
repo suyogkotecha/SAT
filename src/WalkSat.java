@@ -16,23 +16,23 @@ public class WalkSat {
 		{
 			if(modelSatisfiable(st))	
 			{
-				System.out.println("At iteration: "+i);
+				//System.out.println("At iteration: "+i);
 				return true;
 			}
 			Clause cl = returnRandomFalseClause(st);
-			System.out.println("Returned random false clause: "+cl);
+			//System.out.println("Returned random false clause: "+cl);
 			if(generator.nextDouble() >= probability) //select random symbol
 			{
 				int location = (int)(generator.nextDouble() * cl.size());
 				Literal l = cl.returnLiteral(location);
 				//flip for this literal in model
-				System.out.println("Flipping forPrb: "+l);
+				//System.out.println("Flipping forPrb: "+l);
 				flipBit(dynamicTemp, l);
 			}
 			else//select symbol which maximizes the sat clauses
 			{
 				Literal l = maximizeSat(cl, st);
-				System.out.println("Flipping forMax: "+l);
+				//System.out.println("Flipping forMax: "+l);
 			}
 		}
 		
