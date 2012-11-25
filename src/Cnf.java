@@ -2,6 +2,7 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Random;
 import java.util.Set;
 
 /*This code is picked up/derived from AIMA's code base
@@ -17,6 +18,7 @@ public class Cnf {
 	/**
 	 * @param args
 	 */
+	public static boolean model[][] = new boolean[100][100];
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		long heapSize = Runtime.getRuntime().totalMemory();
@@ -27,11 +29,13 @@ public class Cnf {
 		int N = Integer.parseInt(args[1]);
 		double f = Double.parseDouble(args[2]);
 		double e = Double.parseDouble(args[3]);
+		int flip = Integer.parseInt(args[4]);
+		double prb = Double.parseDouble(args[5]);
 		//M=3;N=2;
 		//System.out.println("M:"+M+" N:"+N+" f:"+f+" e:"+e);
 		//fill matrix R
-		M=16;
-		N=2;
+		/*M=16;
+		N=2;*/
 		/*f = 0.0;
 		e = 1;*/
 		
@@ -44,15 +48,17 @@ public class Cnf {
 		generateClauseForMatrix(st,M,N);
 
 		long lStartTime = new Date().getTime(); //start time
-		System.out.print("PL:" + plResolution(st)+"\t");
+		//System.out.print("PL:" + plResolution(st)+"\t");
 		long lEndTime = new Date().getTime(); //end time
-		System.out.print(((lEndTime - lStartTime)/1000.0)+"\t");
+		//System.out.print(((lEndTime - lStartTime)/1000.0)+"\t");
 		WalkSat ws = new WalkSat();
-		lStartTime = new Date().getTime(); //start time
-		System.out.print(ws.walkSat(st, 100, M, N,0.5)+"\t");
+		generateModel(M, N);
+		lStartTime = new Date().getTime(); //start time		
+		boolean sat = ws.walkSat(st, 1000, M, N,prb, model);		
 		lEndTime = new Date().getTime(); //end time
-		System.out.print(lEndTime - lStartTime);
-		System.out.println();
+		/*if(sat)
+			System.out.println(lEndTime - lStartTime);*/
+		//System.out.println();
 		
 		/*
 		Clause cl = new Clause();
@@ -72,6 +78,20 @@ public class Cnf {
 		
 		System.out.println(dummy.filterOutClausesWithTwoComplementaryLiterals());*/
 		
+	}
+	public static void generateModel(int M, int N)
+	{
+		Random generator = new Random();
+		for(int i=0;i<M;i++)
+		{
+			for(int j=i+1;j<N;j++)
+			{
+				if(generator.nextDouble() >= 0.5)
+					model[i][j] = true;
+				else
+					model[i][j] = false;
+			}
+		}
 	}
 	public static boolean plResolution(Sentence st)
 	{

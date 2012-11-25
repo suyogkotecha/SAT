@@ -8,25 +8,25 @@ public class WalkSat {
 	int modelTempVal = 0;
 	boolean dynamicTemp[][] = new boolean[100][100];
 	int dynamicTempVal = 0;
-	public boolean walkSat(Sentence st, int flips, int M, int N, double probability)
+	public boolean walkSat(Sentence st, int flips, int M, int N, double probability, boolean [][]modelPassed)
 	{
-		generateModel(M, N);		
+		//generateModel(M, N);
+		copyModels(model, modelPassed);		
 		Random generator = new Random();
 		for(int i=0;i<flips;i++)
 		{
 			if(modelSatisfiable(st))	
-			{
-				//System.out.println("At iteration: "+i);
+			{		
+				Double ratio = (1.0 * st.size())/(M*N);
+				System.out.println("i: "+i+"\t "+ratio);
 				return true;
 			}
 			Clause cl = returnRandomFalseClause(st);
-			//System.out.println("Returned random false clause: "+cl);
 			if(generator.nextDouble() >= probability) //select random symbol
 			{
 				int location = (int)(generator.nextDouble() * cl.size());
 				Literal l = cl.returnLiteral(location);
-				//flip for this literal in model
-				//System.out.println("Flipping forPrb: "+l);
+				//flip for this literal in model		
 				flipBit(dynamicTemp, l);
 			}
 			else//select symbol which maximizes the sat clauses
